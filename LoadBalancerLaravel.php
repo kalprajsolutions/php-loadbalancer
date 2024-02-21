@@ -16,10 +16,8 @@ final class LoadBalancerLaravel
 
         $minLoad = min($loads);
         $minLoadUrls = array_keys($loads, $minLoad);
-        $selectedUrl = $minLoadUrls[array_rand($minLoadUrls)];
-		
-		$this->updateLoad($selectedUrl);
-		
+        $selectedUrl = $minLoadUrls[array_rand($minLoadUrls)];	    
+	$this->updateLoad($selectedUrl);	   // Update the load for the assigned URL   
         return $selectedUrl;
     }
 
@@ -59,15 +57,14 @@ if (!Cache::has('load_balancer_loads')) {
     Cache::put('load_balancer_loads', $initialLoads);
 }
 
-$loadBalancer = new LoadBalancer($urls);
-
-// Simulating tasks completion
-$completedUrl = 'http://example2.com'; // Assuming a task was completed on this URL
-$loadBalancer->releaseLoad($completedUrl);
+$loadBalancer = new LoadBalancer();
 
 // Simulating new tasks
 $newTaskUrl = $loadBalancer->getNextUrl(); // Get the next URL to handle a new task
 echo "Assigning task to: $newTaskUrl";
-$loadBalancer->updateLoad($newTaskUrl); // Update the load for the assigned URL
+
+// Simulating tasks completion
+$newTaskUrl = 'http://example2.com'; // Assuming a task was completed on this URL
+$loadBalancer->releaseLoad($newTaskUrl);
 
 */
